@@ -1,0 +1,33 @@
+name: Kubernetes Task
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Create k8s Kind Cluster
+      uses: helm/kind-action@v1
+    - name: Build and start containers for a services
+      run: |
+        kubectl apply -f 01-sql-secret.yaml
+        kubectl apply -f 02-mysql.yaml
+        kubectl apply -f task-01-deployment.yaml
+        kubectl apply -f task-02-service.yaml
+        kubectl wait pods --all --for condition=Ready
+    - name: Port Forward to webservice
+      run: kubectl port-forward service/wordpress 8080:80 &
+    - name: Test containers functionality
+      uses: cypress-io/github-action@v6
+      env:
+        CYPRESS_BASE_URL: http://localhost:8080
+      with:
+        working-directory: ./.github/tests
