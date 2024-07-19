@@ -31,3 +31,6 @@ spec:
           volumeMounts:
             - name: wordpress-data
               mountPath: /var/www/html
+      volumes:
+        - name: wordpress-data
+          emptyDir: {}
