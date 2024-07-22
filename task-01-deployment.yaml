@@ -20,6 +20,10 @@ spec:
           env:
             - name: WORDPRESS_DB_HOST
               value: mysql
+            - name: WORDPRESS_DATABASE
+              value: wordpress
+            - name: WORDPRESS_USER
+              value: wordpress
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
