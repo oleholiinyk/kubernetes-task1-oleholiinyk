@@ -20,9 +20,9 @@ spec:
           env:
             - name: WORDPRESS_DB_HOST
               value: mysql
-            - name: WORDPRESS_DATABASE
+            - name: WORDPRESS_DB_NAME
               value: wordpress
-            - name: WORDPRESS_USER
+            - name: WORDPRESS_DB_USER
               value: wordpress
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
@@ -37,4 +37,4 @@ spec:
               mountPath: /var/www/html
       volumes:
         - name: wordpress-data
-          emptyDir: {}
+          emptyDir: { }
